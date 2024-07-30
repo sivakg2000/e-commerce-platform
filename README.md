@@ -1,1 +1,3 @@
-My test
+Microservices E-Commerce Platform
+Overview
+This project is a microservices-based e-commerce platform with advanced features such as Role-Based Access Control (RBAC), complex transactions, event handling using Kafka, GraphQL, caching, and centralized logging. The backend is developed using Spring Boot, and the frontend is built with React.js. The project is deployed using Docker and Docker Compose, with a CI/CD pipeline for automated deployment and testing.
