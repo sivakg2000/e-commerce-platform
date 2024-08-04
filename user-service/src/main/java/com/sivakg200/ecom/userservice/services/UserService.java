@@ -4,11 +4,12 @@ import com.sivakg200.ecom.userservice.entities.User;
 import com.sivakg200.ecom.userservice.repositories.UserRepository;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Server
+@Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;

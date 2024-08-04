@@ -3,6 +3,7 @@ package com.sivakg200.ecom.userservice.controller;
 import com.sivakg200.ecom.userservice.entities.User;
 import com.sivakg200.ecom.userservice.services.UserService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequestMapping("/users")
 public class ServiceController {
 
+    @Autowired
     private UserService userService;
 
     @GetMapping("")
