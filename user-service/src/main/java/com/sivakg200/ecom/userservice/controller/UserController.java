@@ -1,6 +1,7 @@
 package com.sivakg200.ecom.userservice.controller;
 
 import com.sivakg200.ecom.userservice.entities.User;
+import com.sivakg200.ecom.userservice.entities.UserRoles;
 import com.sivakg200.ecom.userservice.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
 
     @GetMapping("")
     public List<User> getAll(){
@@ -54,5 +56,25 @@ public class UserController {
         }else{
             throw new DuplicateKeyException("Email Already Exist.");
         }
+    }
+
+    @GetMapping("/{id}/roles")
+    public List<UserRoles> getRolesById(@PathVariable int id){
+        return userService.getRolesByUserId(id);
+    }
+
+    @GetMapping("/{id}/roles/{rid}")
+    public UserRoles getRolesById(@PathVariable int id,@PathVariable int rid){
+        return userService.getRolesById(id,rid);
+    }
+
+    @PostMapping("/{id}/roles/{rid}")
+    public List<UserRoles>  addRolesById(@PathVariable int id,@PathVariable int rid){
+        return userService.addRolesById(id,rid);
+    }
+
+    @DeleteMapping("/{id}/roles/{rid}")
+    public List<UserRoles>  deleteRolesById(@PathVariable int id,@PathVariable int rid){
+        return userService.deleteRolesById(id,rid);
     }
 }
