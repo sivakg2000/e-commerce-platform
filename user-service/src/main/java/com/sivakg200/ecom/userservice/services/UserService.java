@@ -1,5 +1,6 @@
 package com.sivakg200.ecom.userservice.services;
 
+import lombok.extern.log4j.Log4j2;
 import com.sivakg200.ecom.userservice.entities.Role;
 import com.sivakg200.ecom.userservice.entities.User;
 import com.sivakg200.ecom.userservice.entities.UserRoles;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+@Log4j2
 @Service
 public class UserService {
     @Autowired
@@ -28,6 +30,7 @@ public class UserService {
     }
 
     public List<User> getAll(){
+        log.info("Getting All Users");
         return userRepository.findAll();
     }
 

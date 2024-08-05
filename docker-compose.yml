@@ -11,7 +11,7 @@ services:
       - spring.datasource.password=e_commerce_password
     depends_on:
       - db
-    volumes:
+    volumes: 
       - .m2:/home/sivak/.m2
     networks:
       - app-network
