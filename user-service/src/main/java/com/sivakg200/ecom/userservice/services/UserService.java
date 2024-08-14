@@ -1,19 +1,18 @@
 package com.sivakg200.ecom.userservice.services;
 
-import lombok.extern.log4j.Log4j2;
 import com.sivakg200.ecom.userservice.entities.Role;
 import com.sivakg200.ecom.userservice.entities.User;
 import com.sivakg200.ecom.userservice.entities.UserRoles;
 import com.sivakg200.ecom.userservice.repositories.RoleRepository;
 import com.sivakg200.ecom.userservice.repositories.UserRepository;
-import com.sivakg200.ecom.userservice.repositories.UserRoleRepository;
+import com.sivakg200.ecom.userservice.repositories.UserRoleRepository; 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Log4j2
 @Service
 public class UserService {
     @Autowired
@@ -29,8 +28,7 @@ public class UserService {
        return userRepository.save(newUser);
     }
 
-    public List<User> getAll(){
-        log.info("Getting All Users");
+    public List<User> getAll(){ 
         return userRepository.findAll();
     }
 
