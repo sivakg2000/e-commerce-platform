@@ -30,7 +30,7 @@ public class UserController {
 
 		List<User> allUsers = userService.getAll();
 		if (allUsers == null) {
-			throw  new ResourceNotFoundException("Users not found");
+			throw new ResourceNotFoundException("Users not found");
 		}
 		APIResponse<List<User>> resp = ResponseUtil.success(allUsers, "Success", req.getRequestURI());
 		return new ResponseEntity<>(resp, HttpStatus.OK);
@@ -38,12 +38,11 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<APIResponse<User>>  getById(@PathVariable int id,HttpServletRequest req) {
-		 
-		
-		User user=  userService.getById(id);
+	public ResponseEntity<APIResponse<User>> getById(@PathVariable int id, HttpServletRequest req) {
+
+		User user = userService.getById(id);
 		if (user == null) {
-			throw  new ResourceNotFoundException("Users not found with id "+id);
+			throw new ResourceNotFoundException("Users not found with id " + id);
 		}
 		APIResponse<User> resp = ResponseUtil.success(user, "Success", req.getRequestURI());
 		return new ResponseEntity<>(resp, HttpStatus.OK);
@@ -51,48 +50,95 @@ public class UserController {
 	}
 
 	@GetMapping("by-email/{email}")
-	public User getByEmail(@PathVariable String email) {
-		return userService.getByEmail(email);
+	public ResponseEntity<APIResponse<User>> getByEmail(@PathVariable String email, HttpServletRequest req) {
+		// return userService.getByEmail(email);
+		User user = userService.getByEmail(email);
+		if (user == null) {
+			throw new ResourceNotFoundException("Users not found with email " + email);
+		}
+		APIResponse<User> resp = ResponseUtil.success(user, "Success", req.getRequestURI());
+		return new ResponseEntity<>(resp, HttpStatus.OK);
 
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<User> create(@RequestBody @Valid User user) {
+	public ResponseEntity<APIResponse<User>> create(@RequestBody @Valid User user, HttpServletRequest req) {
 		if (userService.getByEmail(user.getEmail()) == null) {
 			userService.create(user);
-			return new ResponseEntity<>(user, HttpStatus.CREATED);
+			APIResponse<User> resp = ResponseUtil.success(user, "Success", req.getRequestURI());
+			return new ResponseEntity<>(resp, HttpStatus.CREATED);
 		} else {
 			throw new DuplicateKeyException("Email Already Exist.");
 		}
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<User> updateById(@PathVariable int id, @RequestBody @Valid User user) {
+	public ResponseEntity<APIResponse<User>> updateById(@PathVariable int id, @RequestBody @Valid User user,
+			HttpServletRequest req) {
 		if (userService.getByEmail(user.getEmail()) == null) {
 			userService.update(id, user);
-			return new ResponseEntity<>(user, HttpStatus.CREATED);
+			APIResponse<User> resp = ResponseUtil.success(user, "Success", req.getRequestURI());
+			return new ResponseEntity<>(resp, HttpStatus.CREATED);
+
 		} else {
 			throw new DuplicateKeyException("Email Already Exist.");
 		}
 	}
 
+	@DeleteMapping("/{id}")
+	public ResponseEntity<APIResponse<User>> deleteUserById(@PathVariable int id, HttpServletRequest req) {
+		// return userService.deleteRolesById(id, rid);
+		User user = userService.getById(id);
+		if (user == null) {
+			throw new ResourceNotFoundException("Users not found with id " + id);
+		}
+		userService.deleteById(id);
+		APIResponse<User> resp = ResponseUtil.success(user, "Success", req.getRequestURI());
+		return new ResponseEntity<>(resp, HttpStatus.OK);
+	}
+
 	@GetMapping("/{id}/roles")
-	public List<UserRoles> getRolesById(@PathVariable int id) {
-		return userService.getRolesByUserId(id);
+	public ResponseEntity<APIResponse<List<UserRoles>>> getRolesById(@PathVariable int id, HttpServletRequest req) {
+		List<UserRoles> allUserRoles = userService.getRolesByUserId(id);
+		if (allUserRoles == null) {
+			throw new ResourceNotFoundException("Users rolse not found");
+		}
+		APIResponse<List<UserRoles>> resp = ResponseUtil.success(allUserRoles, "Success", req.getRequestURI());
+		return new ResponseEntity<>(resp, HttpStatus.OK);
+
 	}
 
 	@GetMapping("/{id}/roles/{rid}")
-	public UserRoles getRolesById(@PathVariable int id, @PathVariable int rid) {
-		return userService.getRolesById(id, rid);
+	public ResponseEntity<APIResponse<UserRoles>> getRolesById(@PathVariable int id, @PathVariable int rid,
+			HttpServletRequest req) {
+		// return userService.getRolesById(id, rid);
+		UserRoles userRole = userService.getRolesById(id, rid);
+		if (userRole == null) {
+			throw new ResourceNotFoundException("Users Role not found with userid " + id+", role id "+rid);
+		}
+		APIResponse<UserRoles> resp = ResponseUtil.success(userRole, "Success", req.getRequestURI());
+		return new ResponseEntity<>(resp, HttpStatus.OK);
 	}
 
 	@PostMapping("/{id}/roles/{rid}")
-	public List<UserRoles> addRolesById(@PathVariable int id, @PathVariable int rid) {
-		return userService.addRolesById(id, rid);
+	public ResponseEntity<APIResponse<List<UserRoles>>> addRolesById(@PathVariable int id, @PathVariable int rid,HttpServletRequest req) {
+		 
+		List<UserRoles> allUserRoles = userService.addRolesById(id, rid);
+		if (allUserRoles == null) {
+			throw new ResourceNotFoundException("Users roles not found");
+		}
+		APIResponse<List<UserRoles>> resp = ResponseUtil.success(allUserRoles, "Success", req.getRequestURI());
+		return new ResponseEntity<>(resp, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}/roles/{rid}")
-	public List<UserRoles> deleteRolesById(@PathVariable int id, @PathVariable int rid) {
-		return userService.deleteRolesById(id, rid);
+	public ResponseEntity<APIResponse<List<UserRoles>>> deleteRolesById(@PathVariable int id, @PathVariable int rid,HttpServletRequest req) {
+	
+		List<UserRoles> allUserRoles = userService.deleteRolesById(id, rid);
+		if (allUserRoles == null) {
+			throw new ResourceNotFoundException("Users roles not found");
+		}
+		APIResponse<List<UserRoles>> resp = ResponseUtil.success(allUserRoles, "Success", req.getRequestURI());
+		return new ResponseEntity<>(resp, HttpStatus.OK);
 	}
 }

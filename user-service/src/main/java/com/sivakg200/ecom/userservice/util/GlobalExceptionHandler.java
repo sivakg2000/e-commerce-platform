@@ -3,6 +3,7 @@ package com.sivakg200.ecom.userservice.util;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,6 +35,13 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<APIResponse<Void>> handleValidationException(HttpServletRequest req,Exception ex){
 		List<String> errors=Arrays.asList(ex.getMessage());
 		APIResponse<Void> resp=ResponseUtil.error(errors, "Validation Failed", 1002, req.getRequestURI());
+		return new ResponseEntity<APIResponse<Void>>(resp,HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(DuplicateKeyException.class)
+	public ResponseEntity<APIResponse<Void>> handleDuplicateKeyException(HttpServletRequest req,Exception ex){
+		List<String> errors=Arrays.asList(ex.getMessage());
+		APIResponse<Void> resp=ResponseUtil.error(errors, "Duplicate Key", 1003, req.getRequestURI());
 		return new ResponseEntity<APIResponse<Void>>(resp,HttpStatus.BAD_REQUEST);
 	}
 
