@@ -1,21 +1,5 @@
 version: "3.7"
 services:
-  user_service:
-    build: ./user-service/
-    restart: always
-    ports:
-      - 8081:8081
-    environment:
-      - spring.datasource.url=jdbc:mysql://db:3306/e-commerce?allowPublicKeyRetrieval=true
-      - spring.datasource.username=e_commerce_user
-      - spring.datasource.password=e_commerce_password
-    depends_on:
-      - db
-    volumes: 
-      - .m2:/home/sivak/.m2
-    networks:
-      - app-network
-      - db-network
   db:
     image: mysql:latest
     restart: always
@@ -29,7 +13,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     networks:
-      - db-network
+      - app-network
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     restart: always
@@ -40,11 +24,20 @@ services:
       - '8071:80'
     networks:
       - app-network
-      
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.3
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.3
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
 networks:
   app-network:
-    driver: bridge
-  db-network:
     driver: bridge
 volumes:
   db_data:
