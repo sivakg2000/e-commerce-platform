@@ -9,6 +9,7 @@ import com.sivakg200.ecom.userservice.util.ResponseUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -28,11 +30,13 @@ public class UserController {
 	@GetMapping("")
 	public ResponseEntity<APIResponse<List<User>>> getAll(HttpServletRequest req) {
 
+		log.info("Start getAll User");
 		List<User> allUsers = userService.getAll();
 		if (allUsers == null) {
 			throw new ResourceNotFoundException("Users not found");
 		}
 		APIResponse<List<User>> resp = ResponseUtil.success(allUsers, "Success", req.getRequestURI());
+		log.info("End getAll User");
 		return new ResponseEntity<>(resp, HttpStatus.OK);
 
 	}

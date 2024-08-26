@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+<include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+ <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <pattern>
+                    <pattern>
+                        {
+                        "date_time": "%d{yyyy-MM-dd'T'HH:mm:ss.SSSX}",
+                        "level": "%p",
+                        "traceId": "%X{traceId:-}",
+                        "spanId": "%X{spanId:-}",
+                        "email": "%X{email}",
+                        "clientIp": "%X{User-ClientIp}",
+                        "clientPort": "%X{User-ClientPort}",
+                        "request-method": "%X{request-method}",
+                        "request-uri": "%X{request-uri}",
+                        "sessionId": "%X{User-SessionId}",
+                        "channel": "%X{App-Channel}",
+                        "channelType": "%X{App-Channel-Type}",
+                        "language": "%X{Language-Prefix}",
+                        "appVersion": "%X{App-Version}",
+                        "osVersion": "%X{Os-Version}",
+                        "source": "%logger{63}:%L",
+                        "message": "%message"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+
+    <!-- <logger name="kafkaLogger" level="INFO">
+        <appender-ref ref="kafkaAppender" />
+    </logger> -->
+
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+</configuration>
